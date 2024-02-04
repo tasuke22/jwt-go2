@@ -1,16 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/tasuke/go-auth/models"
+	"github.com/tasuke/go-auth/router"
+)
 
 func main() {
-	var arrayList [5]int
-	for _, v := range arrayList {
-		fmt.Println(v)
+	err := models.SetUpDB()
+	if err != nil {
+		fmt.Println("Cannot connect to database ", "mysql")
 	}
 
-	fmt.Println(arrayList)
-	fmt.Println("Hello World!")
-	fmt.Println("Hello World!")
-	fmt.Println("Hello World!")
-
+	router.Run()
 }
