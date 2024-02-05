@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/tasuke/go-auth/models"
+	"github.com/tasuke/go-auth/pkg/utils"
 	"gorm.io/gorm"
 	"net/http"
 
@@ -44,6 +45,24 @@ func (handler *Handler) SignUpHandler(context *gin.Context) {
 		})
 		return
 	}
+
+	token, err := utils.GenerateToken(newUser.ID)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to sign up",
+		})
+		return
+	}
+
+	context.SetCookie(
+		"token",
+		token,
+		3600,
+		"/",
+		"localhost",
+		false,
+		true,
+	)
 
 	context.JSON(http.StatusOK, gin.H{
 		"user_id": user.ID,

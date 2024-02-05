@@ -77,3 +77,19 @@ func FindUserByEmail(db *gorm.DB, email string) (User, error) {
 func (user *User) VerifyPassword(inputPassword string) bool {
 	return user.Password == Encrypt(inputPassword)
 }
+
+func GetAllUsers(db *gorm.DB) ([]User, error) {
+	var users []User
+	if err := db.Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func GetUserById(db *gorm.DB, id string) (*User, error) {
+	var user User
+	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}

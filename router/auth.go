@@ -5,7 +5,7 @@ import (
 	"github.com/tasuke/go-auth/controllers"
 )
 
-func addAuthRouter(rg *gin.RouterGroup, h *controllers.Handler) {
+func authRouter(rg *gin.RouterGroup, h *controllers.Handler) {
 	auth := rg.Group("/auth")
 	{
 		auth.POST("/signup", h.SignUpHandler)
